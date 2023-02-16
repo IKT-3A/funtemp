@@ -1,31 +1,25 @@
 package conv
 
-// Converts Fahrenheit to Celsius
-func FahrenheitToCelsius(value float64) float64 {
+func FahrenheitToCelsius(value float64) float64 { // Fahrenheit to Celsius
 	return (value - 32) * 5 / 9
 }
 
-// Converts Celsius to Fahrenheit
-func CelsiusToFahrenheit(value float64) float64 {
+func CelsiusToFahrenheit(value float64) float64 { // Celsius to Fahrenheit
 	return (value * 9 / 5) + 32
 }
 
-// Converts Kelvin to Fahrenheit
-func KelvinToFahrenheit(value float64) float64 {
+func KelvinToFahrenheit(value float64) float64 { //Kelvin to Fahrenheit
 	return (value * 9 / 5) - 459.67
 }
 
-// Converts Fahrenheit to Kelvin
-func FahrenheitToKelvin(value float64) float64 {
+func FahrenheitToKelvin(value float64) float64 { // Fahrenheit to Kelvin
 	return (value + 459.67) * 5 / 9
 }
 
-// Converts Celsius to Kelvin
-func CelsiusToKelvin(value float64) float64 {
+func CelsiusToKelvin(value float64) float64 { // Celsius to Kelvin
 	return value + 273.15
 }
 
-// Converts Kelvin to Celsius
-func KelvinToCelsius(value float64) float64 {
+func KelvinToCelsius(value float64) float64 { // Kelvin to Celsius
 	return value - 273.15
 }
