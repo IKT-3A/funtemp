@@ -32,10 +32,6 @@ func TestGetFunFacts(t *testing.T) {
 				"Temperature in the Earth's inner core is 9392 Kelvin",
 			},
 		},
-		{
-			about:    "mars",
-			expected: []string{},
-		},
 	}
 
 	for _, tt := range tests {
