@@ -1,29 +1,29 @@
 package funfacts
 
-// Structure for funfacts
 type FunFacts struct {
 	Sun   []string
 	Luna  []string
 	Terra []string
 }
 
-// Returns funfacts for the given subject
-func GetFunFacts(subject string) []string {
+func GetFunFacts(about string) []string {
 	facts := FunFacts{
 		Sun: []string{
-			"The Sun is a nearly perfect sphere.",
-			"The Sun is about 109 times larger than Earth.",
+			"Temperature in the Sun's core is 15,000,000 degrees Celsius",
+			"Temperature of the outer layer of the Sun is 5778 Kelvin",
 		},
 		Luna: []string{
-			"The Moon is a natural satellite of the Earth.",
-			"The Moon is about one quarter the size of the Earth.",
+			"Temperature of the Moon's surface at night is -183 degrees Celsius",
+			"Temperature of the Moon's surface during the day is 106 degrees Celsius",
 		},
 		Terra: []string{
-			"Earth is the only planet known to support life.",
-			"Earth is the third planet from the Sun.",
+			"Highest temperature measured on the Earth's surface is 134 degrees Fahrenheit, 56.7 degrees Celsius, 329.82 Kelvin",
+			"Lowest temperature measured on the Earth's surface is -89.4 degrees Celsius",
+			"Temperature in the Earth's inner core is 9392 Kelvin",
 		},
 	}
-	switch subject {
+
+	switch about {
 	case "sun":
 		return facts.Sun
 	case "moon":

@@ -6,32 +6,44 @@ import (
 )
 
 func TestGetFunFacts(t *testing.T) {
-	type test struct {
-		input string
-		want  []string
-	}
-	tests := []test{
-		{input: "sun", want: []string{
-			"The sun is a star, not a planet.",
-			"The sun contains 99.86% of the total mass of the Solar System.",
-			"The temperature in the Sun's core is 15 million degrees Celsius.",
-		}},
-		{input: "moon", want: []string{
-			"The moon is Earth's only natural satellite.",
-			"The moon is not a perfect sphere.",
-			"The moon has no atmosphere.",
-		}},
-		{input: "earth", want: []string{
-			"Earth is the third planet from the Sun.",
-			"Earth is the only planet known to support life.",
-			"The Earth is not a perfect sphere, it is an oblate spheroid.",
-		}},
-		{input: "mars", want: []string{}},
+	tests := []struct {
+		about    string
+		expected []string
+	}{
+		{
+			about: "sun",
+			expected: []string{
+				"Temperature in the Sun's core is 15,000,000 degrees Celsius",
+				"Temperature of the outer layer of the Sun is 5778 Kelvin",
+			},
+		},
+		{
+			about: "moon",
+			expected: []string{
+				"Temperature of the Moon's surface at night is -183 degrees Celsius",
+				"Temperature of the Moon's surface during the day is 106 degrees Celsius",
+			},
+		},
+		{
+			about: "earth",
+			expected: []string{
+				"Highest temperature measured on the Earth's surface is 134 degrees Fahrenheit, 56.7 degrees Celsius, 329.82 Kelvin",
+				"Lowest temperature measured on the Earth's surface is -89.4 degrees Celsius",
+				"Temperature in the Earth's inner core is 9392 Kelvin",
+			},
+		},
+		{
+			about:    "mars",
+			expected: []string{},
+		},
 	}
 
-	for _, tc := range tests {
-		if got := GetFunFacts(tc.input); !reflect.DeepEqual(got, tc.want) {
-			t.Errorf("GetFunFacts(%v) = %v; want %v", tc.input, got, tc.want)
-		}
+	for _, tt := range tests {
+		t.Run(tt.about, func(t *testing.T) {
+			actual := GetFunFacts(tt.about)
+			if !reflect.DeepEqual(tt.expected, actual) {
+				t.Errorf("GetFunFacts(%s): expected %v, actual %v", tt.about, tt.expected, actual)
+			}
+		})
 	}
 }
