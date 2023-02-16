@@ -27,7 +27,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	// Check that only one of the temperature flags is set
+	
 	numTempFlags := 0
 	if fahr != 0 {
 		numTempFlags++
@@ -43,7 +43,7 @@ func main() {
 		return
 	}
 
-	// Convert input temperature to chosen output scale
+	
 	var converted float64
 	switch {
 	case fahr != 0:
@@ -75,7 +75,7 @@ func main() {
 		}
 	}
 
-	// Get fun facts if -funfacts flag is used
+
 	if t != "C" && (funfacts.GetFunFacts()[] == "sun" || funfacts == "moon" || funfacts == "earth") {
 		fmt.Println("Fun facts are only available in Celsius")
 		return
@@ -111,7 +111,7 @@ func main() {
 				return
 			}
 			
-			// Output the converted temperature
+	
 			switch out {
 			case "C":
 				fmt.Printf("Output: %.2fK er %.2f°C\n", converted, Celsius)
@@ -123,8 +123,7 @@ func main() {
 			
 		}
 
-		// The function checks if the flag is specified on the command line
-		// You don't have to use it, but it can help with the logic
+		
 		func isFlagPassed(name string) bool {
 		found := false
 		flag.Visit(func(f *flag.Flag) {
