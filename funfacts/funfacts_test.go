@@ -13,19 +13,19 @@ func TestGetFunFacts(t *testing.T) {
 		{
 			about: "sun",
 			expected: []string{
-				"Temperature in the Sun's core is 15,000,000 degrees Celsius",
-				"Temperature of the outer layer of the Sun is 5778 Kelvin",
+				"The temperature in the core of the sun is 15,000,000 degrees Celsius",
+				"The temperature of the outer layer of the Sun is 5778 Kelvin",
 			},
 		},
 		{
-			about: "moon",
+			about: "luna",
 			expected: []string{
 				"Temperature of the Moon's surface at night is -183 degrees Celsius",
 				"Temperature of the Moon's surface during the day is 106 degrees Celsius",
 			},
 		},
 		{
-			about: "earth",
+			about: "terra",
 			expected: []string{
 				"Highest temperature measured on the Earth's surface is 134 degrees Fahrenheit, 56.7 degrees Celsius, 329.82 Kelvin",
 				"Lowest temperature measured on the Earth's surface is -89.4 degrees Celsius",
