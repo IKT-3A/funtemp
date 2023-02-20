@@ -3,133 +3,125 @@ package main
 import (
 	"flag"
 	"fmt"
-
 	"funtemps/conv"
 	"funtemps/funfacts"
+	"math"
+	"strconv"
+	"strings"
 )
 
 var (
 	fahr    float64
-	celsius float64
 	kelvin  float64
-	out     string
+	celsius float64
+	out     string // GETTING THE SCOPE
+	funf    string
 	t       string
 )
 
 func init() {
-	flag.Float64Var(&fahr, "F", 0.0, "temperature in degrees Fahrenheit")
-	flag.Float64Var(&celsius, "C", 0.0, "temperature in degrees Celsius")
-	flag.Float64Var(&kelvin, "K", 0.0, "temperature in Kelvin")
-	flag.StringVar(&out, "out", "C", "output temperature scale: C - Celsius, F - Fahrenheit, K - Kelvin")
-	flag.StringVar(&t, "t", "C", "temperature scale for fun facts: C - Celsius, F - Fahrenheit, K - Kelvin")
+
+	flag.Float64Var(&fahr, "F", 0.0, "temperatur i grader Fahrenheit")
+	flag.Float64Var(&kelvin, "K", 0.0, "temperatur i grader Kelvin")
+	flag.Float64Var(&celsius, "C", 0.0, "temperatur i grader Celsius")
+	flag.StringVar(&out, "out", "C", "beregne temperatur i F - farhenheit") // INITIALIAZING VARIABLES
+	flag.StringVar(&funf, "funfacts", "sun", " \"fun-facts\" om sun - Solen, luna - Månen og terra - Jorden")
+	flag.StringVar(&t, "t", "f", "temperature unit to convert to (c, f, k)")
+
 }
 
 func main() {
-	flag.Parse()
-
-	
-	numTempFlags := 0
-	if fahr != 0 {
-		numTempFlags++
-	}
-	if celsius != 0 {
-		numTempFlags++
-	}
-	if kelvin != 0 {
-		numTempFlags++
-	}
-	if numTempFlags != 1 {
-		fmt.Println("Please specify exactly one of the temperature flags (-F, -C, -K)")
-		return
+	flag.Parse() // HERE GOES THE CONVERTER METHODS WITH FLAGS
+	if out == "C" && isFlagPassed("F") {
+		celsius = conv.FahrenheitToCelsius(fahr)
+		fmt.Printf("%.2f°F er %.2f°C", fahr, celsius)
 	}
 
-	
-	var converted float64
-	switch {
-	case fahr != 0:
-		switch out {
-		case "C":
-			converted = conv.FahrenheitToCelsius(fahr)
-		case "K":
-			converted = conv.FahrenheitToKelvin(fahr)
-		case "F":
-			converted = fahr
-		}
-	case celsius != 0:
-		switch out {
-		case "F":
-			converted = conv.CelsiusToFahrenheit(celsius)
-		case "K":
-			converted = conv.CelsiusToKelvin(celsius)
-		case "C":
-			converted = celsius
-		}
-	case kelvin != 0:
-		switch out {
-		case "F":
-			converted = conv.KelvinToFahrenheit(kelvin)
-		case "C":
-			converted = conv.KelvinToCelsius(kelvin)
-		case "K":
-			converted = kelvin
+	if out == "K" && isFlagPassed("F") {
+		kelvin = conv.FahrenheitToKelvin(fahr)
+		fmt.Printf("%.2f °F er %.2f °K", fahr, kelvin)
+	}
+
+	if out == "F" && isFlagPassed("C") {
+		fahr = conv.CelsiusToFahrenheit(celsius)
+		fmt.Printf("%.2f°C er %.2f°F", celsius, fahr)
+	}
+
+	if out == "K" && isFlagPassed("C") {
+		kelvin = conv.CelsiusToKelvin(celsius)
+		fmt.Printf("%.2f°C er %.2f°K", celsius, kelvin)
+	}
+
+	if out == "F" && isFlagPassed("K") {
+		fahr = conv.KelvinToFahrenheit(kelvin)
+		fmt.Printf("%.2f°K er %.2f°F", kelvin, fahr)
+	}
+
+	if out == "C" && isFlagPassed("K") {
+		celsius = conv.KelvinToCelsius(kelvin)
+		fmt.Printf("%.2f°K er %.2f°C", kelvin, celsius)
+	}
+
+	// HERE GOES THE FACTS
+	if funf == "terra" && isFlagPassed("funfacts") {
+		terrafact := funfacts.GetFunFacts(funf)
+		if t == "C" {
+			fmt.Printf("%s %s °C. %s %s °C. \n%s %s °C.", terrafact[0], formatNumber(56.7), terrafact[1], formatNumber(-89.4), terrafact[2], formatNumber(9118))
+		} else if t == "K" {
+			fmt.Printf("%s %s K. %s %s \n%s %s K.", terrafact[0], formatNumber(conv.CelsiusToKelvin(56.7)), terrafact[1], formatNumber(conv.CelsiusToKelvin(-89.4)), terrafact[2], formatNumber(conv.CelsiusToKelvin(9118)))
+		} else if t == "F" {
+			fmt.Printf("%s %s °F. %s %s \n%s %s °F.", terrafact[0], formatNumber(conv.CelsiusToFahrenheit(9118)))
 		}
 	}
 
-
-	if t != "C" && (funfacts.GetFunFacts()[] == "sun" || funfacts == "moon" || funfacts == "earth") {
-		fmt.Println("Fun facts are only available in Celsius")
-		return
+	if funf == "sun" && isFlagPassed("funfacts") {
+		sunfact := funfacts.GetFunFacts(funf)
+		if t == "C" {
+			fmt.Printf("%s %s °C.\n%s %s °C.", sunfact[0], formatNumber(15000000), sunfact[1], formatNumber(conv.KelvinToCelsius(5778)))
+		} else if t == "K" {
+			fmt.Printf("%s %s K.\n%s %s K.", sunfact[0], formatNumber(conv.CelsiusToKelvin(15000000)), sunfact[1], formatNumber(5778))
+		} else if t == "F" {
+			fmt.Printf("%s %s °F.\n%s %s °F.", sunfact[0], formatNumber(conv.CelsiusToFahrenheit(15000000)), sunfact[1], formatNumber(conv.CelsiusToFahrenheit(5778)))
+		}
 	}
-	if funfacts != "sun" && funfacts != "moon" && funfacts != "earth" {
-		fmt.Println("Invalid value for -funfacts. Please choose sun, moon, or earth.")
-		return
+
+	if funf == "luna" && isFlagPassed("funfacts") {
+		lunafact := funfacts.GetFunFacts(funf)
+		if t == "C" {
+			fmt.Printf("%s %s °C.\n%s %s °C.", lunafact[0], formatNumber(-183), lunafact[1], formatNumber(106))
+		} else if t == "K" {
+			fmt.Printf("%s %s K.\n%s %s K.", lunafact[0], formatNumber(conv.CelsiusToKelvin(-183)), lunafact[1], formatNumber(conv.CelsiusToKelvin(106)))
+		} else if t == "F" {
+			fmt.Printf("%s %s °F.\n%s %s °F.", lunafact[0], formatNumber(conv.CelsiusToFahrenheit(-183)), lunafact[1], formatNumber(conv.CelsiusToFahrenheit(106)))
+		}
 	}
-	if funfacts == "sun" {
-		sunFacts := funfacts.GetFunFacts("sun")
-		for _, fact := range sunFacts {
-			fmt.Println(fact)
-		}
-	} else if funfacts == "moon" {
-		moonFacts := funfacts.GetFunFacts("moon")
-		if out != "C" {
-			fmt.Println("Moon facts are only available in Celsius")
-			return
-		}
-		for _, fact := range moonFacts {
-			fmt.Println(fact)
-		}
-	} else if funfacts == "earth" {
-		earthFacts := funfacts.GetFunFacts("earth")
-		if out != "C" {
-			for _, fact := range earthFacts {
-			fmt.Println(fact)
-			}
-			}
-			}
+}
 
-			if funfacts == "sun" || funfacts == "moon" || funfacts == "earth" {
-				return
-			}
-			
-	
-			switch out {
-			case "C":
-				fmt.Printf("Output: %.2fK er %.2f°C\n", converted, Celsius)
-			case "F":
-				fmt.Printf("Output: %.2fK er %.2f°F\n", converted, fahr)
-			case "K":
-				fmt.Printf("Output: %.2fK er %.2fK\n", converted, kelvin)
-			}
-			
-		}
+func formatNumber(num float64) string { //A FUNC TO GET RID OF THE EXTRA DECIMALS
 
-		
-		func isFlagPassed(name string) bool {
-		found := false
-		flag.Visit(func(f *flag.Flag) {
+	str := strconv.FormatFloat(num, 'f', 2, 64)
+
+	for str[len(str)-1] == '0' {
+		str = str[:len(str)-1]
+	}
+
+	if math.Abs(num) >= 1000 {
+		i := strings.Index(str, ".")
+		for j := i - 3; j > 0; j -= 3 {
+			str = str[:j] + " " + str[j:]
+		}
+	}
+
+	return str
+}
+
+// FLAGGED OR NOT
+func isFlagPassed(name string) bool {
+	found := false
+	flag.Visit(func(f *flag.Flag) {
 		if f.Name == name {
-		found = true
+			found = true
 		}
-		})
-		return found
-		}
+	})
+	return found
+}
