@@ -9,11 +9,11 @@ func CelsiusToFahrenheit(value float64) float64 { // Celsius to Fahrenheit
 }
 
 func KelvinToFahrenheit(value float64) float64 { //Kelvin to Fahrenheit
-	return (value * 9 / 5) - 459.67
+	return (value-273.15)*9/5 + 32
 }
 
 func FahrenheitToKelvin(value float64) float64 { // Fahrenheit to Kelvin
-	return (value + 459.67) * 5 / 9
+	return (value-32)*5/9 + 273.15
 }
 
 func CelsiusToKelvin(value float64) float64 { // Celsius to Kelvin
